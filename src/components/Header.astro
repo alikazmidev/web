@@ -1,0 +1,18 @@
+---
+const current=Astro.url.pathname;
+---
+<header class="site-header wrap">
+  <a class="brand" href="/" aria-label="Ali Abbas Kazmi home"><span class="brand-mark"></span> aliabbaskazmi.com</a>
+  <nav aria-label="Main navigation"><a class:list={[{'active':current==='/'}]} href="/">Home</a><a class:list={[{'active':current.startsWith('/blog')}]} href="/blog/">Blog</a><a class:list={[{'active':current.startsWith('/projects')}]} href="/projects/">Projects</a><a class:list={[{'active':current.startsWith('/about')}]} href="/about/">About</a></nav>
+  <button class="theme-button" type="button" aria-label="Theme: system. Click to change theme" title="Change theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="theme-label">System</span></button>
+</header>
+<script>
+ const key='kazmi-theme';
+ const root=document.documentElement;
+ const themes=['system','light','dark'] as const;
+ const btn=document.querySelector<HTMLButtonElement>('.theme-button');
+ const label=document.querySelector<HTMLElement>('.theme-label');
+ function setTheme(mode:string){if(mode==='system')root.removeAttribute('data-theme');else root.dataset.theme=mode; if(label)label.textContent=mode[0].toUpperCase()+mode.slice(1);btn?.setAttribute('aria-label',`Theme: ${mode}. Click to change theme`);}
+ let current=localStorage.getItem(key)||'system';setTheme(current);
+ btn?.addEventListener('click',()=>{current=themes[(themes.indexOf(current as typeof themes[number])+1)%themes.length];localStorage.setItem(key,current);setTheme(current);});
+</script>

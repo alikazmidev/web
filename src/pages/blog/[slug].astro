@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import {getPosts,prettyDate} from '../../lib/posts';
+export async function getStaticPaths(){const posts=await getPosts();return posts.map(post=>({params:{slug:post.slug},props:{post}}));}
+const {post}=Astro.props;
+---
+<Base title={`${post.title} — Ali Abbas Kazmi`} description={post.excerpt}><div class="wrap article-page"><a class="back-link" href="/blog/">← All writing</a><header class="article-header"><time datetime={post.date}>{prettyDate(post.date)}</time><h1>{post.title}</h1><p>{post.excerpt}</p></header><article class="article-content" set:html={post.html}/><div class="article-bottom"><a href="/blog/">← Back to writing</a></div></div></Base>

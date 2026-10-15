@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import {getPosts,prettyDate} from '../lib/posts';
+const posts=await getPosts();const post=posts[0];
+---
+<Base title="Ali Abbas Kazmi — Learning, building, exploring">
+ <div class="wrap home">
+  <section class="hero"><div class="hero-main"><div class="eyebrow">~/ali <span class="subtle-dot">•</span> a little corner of the internet</div><h1>Ali Abbas<br/><span>Kazmi<span class="period">.</span></span></h1><p class="hero-lead">Curious about how things work.</p><p class="hero-copy">I'm a Computer Science student and lifelong learner, currently exploring backend engineering and building things along the way.</p><div class="hero-actions"><a class="button-primary" href="/about/">More about me <span>↗</span></a><a class="text-link" href="/blog/">Read my writing <span>↗</span></a></div></div><aside class="hero-aside"><span class="section-label">A LITTLE ABOUT ME</span><p>Studying BS Computer Science at <strong>UoPeople</strong><br/><span>Expected graduation · Q4 2027</span></p><p>Self-studying <strong>backend engineering</strong><br/><span>One concept at a time</span></p><div class="aside-rule"></div><p class="aside-note">Outside the screen: solo walks, Radiohead, Red Dead Redemption 2 and finding something good to eat.</p></aside></section>
+  <section class="feature-section"><div class="section-heading"><span class="section-label">01 / PROJECT</span><a class="small-link" href="/projects/">Projects ↗</a></div><a class="feature-row" href="/projects/"><div><h2>This website <span class="arrow">↗</span></h2><p>A personal space for learning, writing and experimenting. Built with Astro and a headless WordPress blog.</p></div><span class="feature-meta">Astro / WordPress</span></a></section>
+  <section class="feature-section"><div class="section-heading"><span class="section-label">02 / WRITING</span><a class="small-link" href="/blog/">All writing ↗</a></div>{post ? <a class="feature-row" href={`/blog/${post.slug}/`}><div><h2>{post.title} <span class="arrow">↗</span></h2><p>{post.excerpt}</p></div><time class="feature-meta" datetime={post.date}>{prettyDate(post.date)}</time></a> : <p class="muted">Writing is coming soon.</p>}</section>
+  <div class="closing"><span class="mono">Still learning. Always curious.</span><span>Made with intention, not noise.</span></div>
+ </div>
+</Base>
