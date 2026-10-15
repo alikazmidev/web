@@ -62,3 +62,8 @@ Light cream is the default for light-mode devices; dark graphite is used for dar
 - No SSR, database or Cloudflare Workers needed for the frontend.
 - Posts use WordPress REST API. WordPress itself needs a separate PHP/MySQL host.
 - For a large WordPress blog, add pagination to the fetcher (currently fetches up to 50 posts).
+
+
+## Interactive grid background
+
+The homepage hero has a subtle canvas grid. On desktop, moving the pointer gently bends nearby grid lines and reveals a diffused green glow. The effect stays behind the content, does not capture pointer events, stops animating when idle and respects reduced-motion and touch-device preferences. The grid colors automatically follow the light/dark theme. Edit the `step`, `radius` and glow opacity values in `src/pages/index.astro`, or `--grid-ink` in `src/styles.css` to customize it. No additional dependencies are required.
