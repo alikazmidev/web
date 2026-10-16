@@ -1,18 +1,78 @@
 ---
-const current=Astro.url.pathname;
+const current = Astro.url.pathname;
 ---
-<header class="site-header wrap">
-  <a class="brand" href="/" aria-label="Ali Abbas Kazmi home"><span class="brand-mark"></span> aliabbaskazmi.com</a>
-  <nav aria-label="Main navigation"><a class:list={[{'active':current==='/'}]} href="/">Home</a><a class:list={[{'active':current.startsWith('/blog')}]} href="/blog/">Blog</a><a class:list={[{'active':current.startsWith('/projects')}]} href="/projects/">Projects</a><a class:list={[{'active':current.startsWith('/about')}]} href="/about/">About</a></nav>
-  <button class="theme-button" type="button" aria-label="Theme: system. Click to change theme" title="Change theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="theme-label">System</span></button>
+<header class="header-shell" id="header-shell">
+  <div class="site-header wrap">
+    <a class="brand" href="/" aria-label="Ali Abbas Kazmi home"><span class="brand-mark"></span> aliabbaskazmi.com</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a class:list={[{'active':current==='/'}]} href="/">Home</a>
+      <a class:list={[{'active':current.startsWith('/projects')}]} href="/projects/">Projects</a>
+      <a class:list={[{'active':current.startsWith('/about')}]} href="/about/">About</a>
+    </nav>
+    <div class="header-actions">
+      <div class="theme-control">
+        <button class="theme-button" type="button" aria-label="Choose color theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <span class="theme-label">System</span><span class="chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div id="theme-menu" class="theme-menu" hidden role="group" aria-label="Color theme">
+          <button type="button" data-mode="light">Light <span aria-hidden="true">✓</span></button>
+          <button type="button" data-mode="dark">Dark <span aria-hidden="true">✓</span></button>
+          <button type="button" data-mode="system">System <span aria-hidden="true">✓</span></button>
+        </div>
+      </div>
+      <button class="mobile-menu-toggle" type="button" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav wrap" aria-label="Mobile navigation" hidden>
+    <a class:list={[{'active':current==='/'}]} href="/">Home</a>
+    <a class:list={[{'active':current.startsWith('/projects')}]} href="/projects/">Projects</a>
+    <a class:list={[{'active':current.startsWith('/about')}]} href="/about/">About</a>
+  </nav>
 </header>
 <script>
- const key='kazmi-theme';
- const root=document.documentElement;
- const themes=['system','light','dark'] as const;
- const btn=document.querySelector<HTMLButtonElement>('.theme-button');
- const label=document.querySelector<HTMLElement>('.theme-label');
- function setTheme(mode:string){if(mode==='system')root.removeAttribute('data-theme');else root.dataset.theme=mode; if(label)label.textContent=mode[0].toUpperCase()+mode.slice(1);btn?.setAttribute('aria-label',`Theme: ${mode}. Click to change theme`);}
- let current=localStorage.getItem(key)||'system';setTheme(current);
- btn?.addEventListener('click',()=>{current=themes[(themes.indexOf(current as typeof themes[number])+1)%themes.length];localStorage.setItem(key,current);setTheme(current);});
+  const root = document.documentElement;
+  const themeKey = 'kazmi-theme';
+  const themeControl = document.querySelector<HTMLElement>('.theme-control');
+  const themeButton = document.querySelector<HTMLButtonElement>('.theme-button');
+  const themeMenu = document.querySelector<HTMLElement>('#theme-menu');
+  const themeLabel = document.querySelector<HTMLElement>('.theme-label');
+  const modeButtons = document.querySelectorAll<HTMLButtonElement>('[data-mode]');
+  const mobileToggle = document.querySelector<HTMLButtonElement>('.mobile-menu-toggle');
+  const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
+  const header = document.querySelector<HTMLElement>('.header-shell');
+  const getMode = () => {try {return localStorage.getItem(themeKey) || 'system'} catch {return 'system'}};
+  function applyTheme(mode: string) {
+    if (mode === 'dark' || mode === 'light') root.dataset.theme = mode;
+    else root.removeAttribute('data-theme');
+    if (themeLabel) themeLabel.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+    modeButtons.forEach(button => {
+      const selected = button.dataset.mode === mode;
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  }
+  function closeTheme() { if(themeMenu) themeMenu.hidden = true; themeButton?.setAttribute('aria-expanded', 'false'); }
+  applyTheme(getMode());
+  themeButton?.addEventListener('click', () => {
+    if (!themeMenu) return;
+    themeMenu.hidden = !themeMenu.hidden;
+    themeButton.setAttribute('aria-expanded', String(!themeMenu.hidden));
+  });
+  modeButtons.forEach(button => button.addEventListener('click', () => {
+    const mode = button.dataset.mode || 'system';
+    try {localStorage.setItem(themeKey, mode)} catch {}
+    applyTheme(mode); closeTheme(); themeButton?.focus();
+  }));
+  document.addEventListener('pointerdown', event => {if (themeControl && !themeControl.contains(event.target as Node)) closeTheme()});
+  document.addEventListener('keydown', event => {if(event.key === 'Escape') {closeTheme(); if(mobileNav && !mobileNav.hidden) mobileToggle?.click();}});
+  mobileToggle?.addEventListener('click', () => {
+    if (!mobileNav) return;
+    mobileNav.hidden = !mobileNav.hidden;
+    mobileToggle.setAttribute('aria-expanded', String(!mobileNav.hidden));
+    mobileToggle.setAttribute('aria-label', mobileNav.hidden ? 'Open navigation' : 'Close navigation');
+  });
+  const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 12);
+  window.addEventListener('scroll', updateHeader, {passive:true});
+  updateHeader();
 </script>

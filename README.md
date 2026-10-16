@@ -67,3 +67,10 @@ Light cream is the default for light-mode devices; dark graphite is used for dar
 ## Interactive grid background
 
 The homepage hero has a subtle canvas grid. On desktop, moving the pointer gently bends nearby grid lines and reveals a diffused green glow. The effect stays behind the content, does not capture pointer events, stops animating when idle and respects reduced-motion and touch-device preferences. The grid colors automatically follow the light/dark theme. Edit the `step`, `radius` and glow opacity values in `src/pages/index.astro`, or `--grid-ink` in `src/styles.css` to customize it. No additional dependencies are required.
+
+
+## October 2026 update
+
+Blog navigation and blog routes have been removed for now. The homepage now features only the project section. The WordPress helper (`src/lib/posts.ts`) is retained for a future blog relaunch but is not used in the build.
+
+The header now has a responsive mobile menu, sticky frosted-on-scroll background and a Light/Dark/System dropdown. The homepage background uses interactive dotted-paper texture instead of grid lines.

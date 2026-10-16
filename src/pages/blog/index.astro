@@ -1,6 +1,0 @@
----
-import Base from '../../layouts/Base.astro';
-import {getPosts,prettyDate} from '../../lib/posts';
-const posts=await getPosts();
----
-<Base title="Writing — Ali Abbas Kazmi"><div class="wrap inner-page"><p class="eyebrow">~/blog</p><h1>Notes from<br/>the journey<span class="period">.</span></h1><p class="page-intro">Thoughts on technology, learning and whatever else catches my interest.</p><div class="post-list">{posts.length ? posts.map(post=><a class="post-list-item" href={`/blog/${post.slug}/`}><time datetime={post.date}>{prettyDate(post.date)}</time><div><h2>{post.title} <span class="arrow">↗</span></h2><p>{post.excerpt}</p></div></a>) : <p class="muted">No posts yet.</p>}</div></div></Base>
