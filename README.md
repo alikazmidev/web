@@ -74,3 +74,10 @@ The homepage hero has a subtle canvas grid. On desktop, moving the pointer gentl
 Blog navigation and blog routes have been removed for now. The homepage now features only the project section. The WordPress helper (`src/lib/posts.ts`) is retained for a future blog relaunch but is not used in the build.
 
 The header now has a responsive mobile menu, sticky frosted-on-scroll background and a Light/Dark/System dropdown. The homepage background uses interactive dotted-paper texture instead of grid lines.
+
+
+## Search visibility and AI discovery
+
+This build includes unique titles/descriptions, canonical URLs, Open Graph and Twitter preview tags, JSON-LD Person/WebSite/WebPage data, `/robots.txt`, `/sitemap.xml`, `/llms.txt` and `/og-image.png`. `Ali Kazmi` is marked as an alternate name, while `Ali Abbas Kazmi` remains the canonical full name.
+
+After connecting the custom domain, verify `https://aliabbaskazmi.com/sitemap.xml` and submit it in Google Search Console and Bing Webmaster Tools. Request indexing for the home, About and Projects pages. Search ranking and AI inclusion are not guaranteed; `/llms.txt` is optional and not an official indexing protocol. Do not add fabricated credentials or social profile links.

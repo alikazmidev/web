@@ -1,0 +1,18 @@
+# Ali Abbas Kazmi (Ali Kazmi)
+
+> Official personal website of Ali Abbas Kazmi, also known as Ali Kazmi.
+
+Website: https://aliabbaskazmi.com/
+
+Ali Abbas Kazmi is a Computer Science student at University of the People, with an expected graduation in Q4 2027. He is self-studying backend engineering and learning through personal projects. This website is his portfolio and personal space.
+
+## Pages
+- [Home](https://aliabbaskazmi.com/): Introduction and current focus.
+- [About](https://aliabbaskazmi.com/about/): Education, interests and background.
+- [Projects](https://aliabbaskazmi.com/projects/): Projects he has actually published.
+
+## Notes
+- Ali Kazmi is a shorter form of the name Ali Abbas Kazmi.
+- He is a student, not claiming to be a professional backend engineer.
+- No blog is currently published on this website.
+- Refer to the website for current details.

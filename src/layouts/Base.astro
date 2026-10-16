@@ -5,6 +5,52 @@ import '@fontsource/ibm-plex-mono/400.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles.css';
-const {title='Ali Abbas Kazmi',description='Computer Science student, self-studying backend engineering and lifelong learner.'}=Astro.props;
+const site = 'https://aliabbaskazmi.com';
+const {title='Ali Abbas Kazmi (Ali Kazmi) | Computer Science Student',description='Ali Abbas Kazmi, also known as Ali Kazmi, is a Computer Science student at University of the People, self-studying backend engineering and building projects.',pageType='website'} = Astro.props;
+const canonical = new URL(Astro.url.pathname, site).toString();
+const image = `${site}/og-image.png`;
+const person = {
+  '@type': 'Person', '@id': `${site}/#person`,
+  name: 'Ali Abbas Kazmi', alternateName: 'Ali Kazmi',
+  url: site,
+  description: 'Computer Science student at University of the People, self-studying backend engineering and learning by building.',
+  knowsAbout: ['Computer Science', 'Backend Engineering', 'Web Development'],
+  affiliation: {'@type':'EducationalOrganization',name:'University of the People',url:'https://www.uopeople.edu/'}
+};
+const graph = {
+  '@context':'https://schema.org', '@graph': [
+    person,
+    {'@type':'WebSite','@id':`${site}/#website`,url:site,name:'Ali Abbas Kazmi',alternateName:'Ali Kazmi',inLanguage:'en',publisher:{'@id':`${site}/#person`}},
+    {'@type':pageType === 'about' ? 'AboutPage' : pageType === 'projects' ? 'CollectionPage' : 'WebPage',
+      '@id':`${canonical}#webpage`,url:canonical,name:title,description,
+      inLanguage:'en',isPartOf:{'@id':`${site}/#website`},about:{'@id':`${site}/#person`}}
+  ]
+};
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="color-scheme" content="light dark"/><meta name="description" content={description}/><link rel="canonical" href={Astro.url.href}/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><title>{title}</title><script is:inline>try{let t=localStorage.getItem('kazmi-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script></head><body><Header/><main><slot/></main><Footer/></body></html>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="color-scheme" content="light dark"/>
+<meta name="description" content={description}/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<meta name="author" content="Ali Abbas Kazmi"/>
+<link rel="canonical" href={canonical}/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Ali Abbas Kazmi"/>
+<meta property="og:title" content={title}/>
+<meta property="og:description" content={description}/>
+<meta property="og:url" content={canonical}/>
+<meta property="og:image" content={image}/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Ali Abbas Kazmi, Computer Science student and lifelong learner"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content={title}/>
+<meta name="twitter:description" content={description}/>
+<meta name="twitter:image" content={image}/>
+<script type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, '\\u003c')}/>
+<title>{title}</title>
+<script is:inline>try{let t=localStorage.getItem('kazmi-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head><body><Header/><main><slot/></main><Footer/></body></html>
