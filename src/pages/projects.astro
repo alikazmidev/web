@@ -77,6 +77,17 @@ import Base from '../layouts/Base.astro';
         <span>Tailwind CSS</span>
         <span>Chrome Extension MV3</span>
       </div>
+
+      <a
+        href="https://github.com/alikazmidev/zenith"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="project-link"
+        aria-label="View Zenith on GitHub (opens in a new tab)"
+      >
+        View on GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
     </div>
 
     <p class="muted after-project">
@@ -84,3 +95,45 @@ import Base from '../layouts/Base.astro';
     </p>
   </div>
 </Base>
+
+<style>
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0.25rem;
+    color: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    transition: opacity 0.2s ease;
+  }
+
+  .project-link:hover {
+    opacity: 0.65;
+  }
+
+  .project-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
+
+  .project-link span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .project-link:hover span {
+    transform: translate(2px, -2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-link,
+    .project-link span {
+      transition: none;
+    }
+  }
+</style>
